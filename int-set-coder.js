@@ -29,7 +29,6 @@ function int_set_encode(list, radix = 36) {
     for (const i of sorted) {
         if (i === current + 1) {
             if (repeat > 0) push("*", repeat, repeat = 0)
-            current += 1
             range += 1
         } else {
             if (range > 0) push(":", range, range = 0)
@@ -37,9 +36,17 @@ function int_set_encode(list, radix = 36) {
                 repeat += 1
             } else {
                 if (repeat > 0) push("*", repeat, repeat = 0)
-                push("+", i - current, current = i)
+                const d = i - current
+                if (Math.abs(d) > Math.abs(i)) {
+                    push(d >= 0 ? "=" : "!", i)
+                } else if (d >= 0) {
+                    push("+", d)
+                } else {
+                    push("-", -d)
+                }
             }
         }
+        current = i
     }
     if (range > 0) push(":", range)
     if (repeat > 0) push("*", repeat)
@@ -53,7 +60,7 @@ function int_set_encode(list, radix = 36) {
  */
 function int_set_decode(text, radix = 36) {
 
-    const tokens = text.matchAll(/([+:*])(-?\w+)/g)
+    const tokens = text.matchAll(/([=!+\-:*])(\w+)/g)
 
     const list = []
     let current = 0
@@ -62,8 +69,13 @@ function int_set_decode(text, radix = 36) {
         const number = Number.parseInt(text, radix)
 
         if (op === "+") {
-            current += number
-            list.push(current)
+            list.push(current += number)
+        } else if (op === "=") {
+            list.push(current = number)
+        } else if (op === "-") {
+            list.push(current -= number)
+        } else if (op === "!") {
+            list.push(current = -number)
         } else if (op === "*") {
             for (let i = 1; i <= number; i++)  list.push(current)
         } else if (op === ":") {
