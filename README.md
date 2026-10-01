@@ -4,4 +4,4 @@ Collection of coders (objects/lists <-> text)
 
 ### Coders
 
-- [integer set](./int-set-coder.js)
+- [int coders](./int-coder.js)
