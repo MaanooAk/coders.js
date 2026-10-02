@@ -43,20 +43,6 @@ function int_set_encode(list, options) { return "" }
  */
 function int_dict_encode(object, options) { return "" }
 
-// /**
-//  * @param {{ [key: number]: any }} object 
-//  * @param {Partial<IntOptions>} options 
-//  * @returns {string}
-//  */
-// function int_keys_encode(object, options) { return "" }
-
-// /**
-//  * @param {{ [key: string]: number }} object 
-//  * @param {Partial<IntOptions>} options 
-//  * @returns {string}
-//  */
-// function int_values_encode(object, options) { return "" }
-
 /**
  * @param {string} text
  * @param {Partial<IntOptions>} options 
@@ -85,23 +71,7 @@ function int_set_decode(text, options) { return [] }
  */
 function int_dict_decode(text, options) { return {} }
 
-// /**
-//  * @param {string} text
-//  * @param {Partial<IntOptions>} options 
-//  * @returns {{ [key: number]: any }}
-//  */
-// function int_keys_decode(text, options) { return {} }
-
-// /**
-//  * @param {string} text
-//  * @param {Partial<IntOptions>} options 
-//  * @returns {{ [key: string]: number }}
-//  */
-// function int_values_decode(text, options) { return {} }
-
-
 // === IMPL ===
-
 (() => {
 
     /**
@@ -221,7 +191,7 @@ function int_dict_decode(text, options) { return {} }
             } else if (op === "!") {
                 list.push(current = -number)
             } else if (op === "*") {
-                for (let i = 1; i <= number; i++)  list.push(current)
+                for (let i = 1; i <= number; i++) list.push(current)
             } else if (op === ":") {
                 for (let i = 1; i <= number; i++) list.push(current + i)
                 current += number
